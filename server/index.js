@@ -12,7 +12,7 @@ const HTModel = require('./htModel');
 
 const app = new Koa();
 
-// 处理首页等静态资源
+// 处理静态资源
 const staticServe = koaStatic(__dirname, { gzip: true });
 app.use(async (ctx, next) => {
     // 静态资源的 path 必须 /public 开头
@@ -53,6 +53,9 @@ function initTodayData() {
     minTemperatureToday = Number.MAX_SAFE_INTEGER;
 }
 initTodayData();
+// 每天凌晨重新初始化当天数据
+const jobPerDayStart = new CronJob('0 0 0 * * *', initTodayData);
+jobPerDayStart.start();
 
 // 保存每个小时的数据
 const dataOfHours = [];
@@ -91,7 +94,7 @@ io.on('connection', (socket) => {
             minTemperatureToday = temperature;
         }
 
-        for (const socket of webPageSockets) {
+        [...webPageSockets].forEach((socket) => {
             socket.emit('real_time_upload', {
                 ...data,
                 maxHumidityToday,
@@ -99,7 +102,7 @@ io.on('connection', (socket) => {
                 maxTemperatureToday,
                 minTemperatureToday,
             });
-        }
+        });
     });
 
     socket.on('disconnect', () => {
@@ -110,15 +113,16 @@ io.on('connection', (socket) => {
     });
 });
 
-// cron 这个定时任务库实测会快个 1 秒左右，因此我这将时间往后推 3 秒
-// 每天凌晨重新初始化当天数据
-const jobPerDayStart = new CronJob('3 0 0 * * *', initTodayData);
-jobPerDayStart.start();
-
+// cron 这个定时任务库实测会快个 1 秒左右
 // 每个小时 0 分钟 0 秒获取当前温湿度
 const jobPerHourStart = new CronJob('3 0 * * * *', async () => {
-    const currentHour = getHours(Date.now());
-    // !: 如果不推迟一段时间（3秒）可能就在 23:59:59 执行了，这里拿到的就是 23
+    // 这里假设时间误差范围最大为 3 秒
+    const now = Date.now();
+    const nowHour = getHours(now);
+    const delayHour = getHours(now + 3 * 1000);
+    const currentHour = delayHour !== nowHour ? delayHour : nowHour;
+
+    // 是凌晨就清空前一天的数据
     if (currentHour === 0) {
         dataOfHours = [];
     }

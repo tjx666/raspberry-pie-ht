@@ -1,23 +1,22 @@
-// 只是启类型提示作用
-// import $ from 'jquery';
-
-$(() => {
+window.addEventListener('load', () => {
     const socket = io({
         query: {
             identity: 'webPage',
         },
     });
 
-    const $temperatureSpan = $('.temperature');
-    const $humiditySpan = $('.humidity');
-    const $temperatureRangeSpan = $('.temperature-range');
-    const $humidityRangeSpan = $('.humidity-range');
+    const temperatureSpan = document.querySelector('.temperature');
+    const humiditySpan = document.querySelector('.humidity');
+    const temperatureRangeSpan = document.querySelector('.temperature-range');
+    const humidityRangeSpan = document.querySelector('.humidity-range');
 
     socket.on('real_time_upload', (data) => {
-        $temperatureSpan.text(`${data.temperature}℃`);
-        $humiditySpan.text(`${data.humidity}%`);
-        $temperatureRangeSpan.text(`${data.minTemperatureToday} ~ ${data.maxTemperatureToday} ℃`);
-        $humidityRangeSpan.text(`${data.minHumidityToday} ~ ${data.maxHumidityToday} %`);
+        temperatureSpan.textContent(`${data.temperature}℃`);
+        humiditySpan.textContent(`${data.humidity}%`);
+        temperatureRangeSpan.textContent(
+            `${data.minTemperatureToday} ~ ${data.maxTemperatureToday} ℃`,
+        );
+        humidityRangeSpan.textContent(`${data.minHumidityToday} ~ ${data.maxHumidityToday} %`);
     });
 
     // 基于准备好的dom，初始化echarts实例
