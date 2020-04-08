@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>基于树莓派和阿里云服务器的温湿度实时监控系统</title>
+        <link rel="stylesheet" href="/public/style.css" />
+    </head>
+    <body>
+        <h2 class="title">基于树莓派和阿里云服务器的温湿度实时监控系统</h2>
+        <ul class="real-time-data">
+            <li>最新温度：<span class="temperature"></span></li>
+            <li>最新湿度：<span class="humidity"></span></li>
+            <li>今日温度范围：<span class="temperature-range"></span></li>
+            <li>今日湿度范围：<span class="humidity-range"></span></li>
+        </ul>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/public/vendor/echarts.js"></script>
+        <script src="/public/vendor/jQuery.js"></script>
+        <script async src="/public/index.js"></script>
+    </body>
+</html>
+
