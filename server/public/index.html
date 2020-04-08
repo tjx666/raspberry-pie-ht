@@ -14,10 +14,13 @@
             <li>今日温度范围：<span class="temperature-range"></span></li>
             <li>今日湿度范围：<span class="humidity-range"></span></li>
         </ul>
+        <div class="charts">
+            <div class="chart temperature-chart" style="width: 860px; height: 600px;"></div>
+            <div class="chart humidity-chart" style="width: 860px; height: 600px;"></div>
+        </div>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/public/vendor/echarts.js"></script>
         <script src="/public/vendor/jQuery.js"></script>
         <script async src="/public/index.js"></script>
     </body>
 </html>
-

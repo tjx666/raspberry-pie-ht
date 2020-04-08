@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from time import sleep, time
-import threading
 
 from smbus2 import SMBus
 import socketio
@@ -41,7 +40,10 @@ def get_HT():
 # 服务器配置
 HOST = '127.0.0.1'
 PORT = 3000
-io = socketio.Client('http://%s:%s?identity=pi' % (HOST, PORT), )
+ADDRESS = 'http://%s:%s?identity=pi' % (HOST, PORT)
+io = socketio.Client()
+io.connect(ADDRESS)
+print('connect to %s' % ADDRESS)
 
 
 def real_time_upload():
@@ -54,6 +56,8 @@ def real_time_upload():
         data = {
             'humidity': humidity, 'temperature': cTemperature, 'timestamp': time()}
         io.emit('real_time_upload', data)
+        # print('upload data, humidity： %s%, temperature: %s℃' %
+        #       (humidity, cTemperature))
 
 
 def main():

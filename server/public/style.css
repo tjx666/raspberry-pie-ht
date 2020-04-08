@@ -26,11 +26,28 @@ h6 {
 }
 
 .title {
+    margin-top: 10px;
     text-align: center;
 }
 
 .real-time-data {
     margin-top: 10px;
-    margin-left: 20px;
+    margin-left: 30px;
     list-style: none;
 }
+
+.charts {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.temperature-chart {
+    margin: 0 auto;
+    margin-right: 40px;
+}
+
+.humidity-chart {
+    margin: 0 auto;
+}
+
