@@ -28,12 +28,15 @@ window.addEventListener('load', () => {
         temperatureChart.setOption({
             title: {
                 text: '当天各个小时的温度',
+                left: 'center'
             },
             xAxis: {
+                name: '时间',
                 type: 'category',
                 data: hours,
             },
             yAxis: {
+                name: '温度 / ℃',
                 type: 'value',
             },
             series: [
@@ -47,12 +50,15 @@ window.addEventListener('load', () => {
         humidityChart.setOption({
             title: {
                 text: '当天各个小时的湿度',
+                left: 'center'
             },
             xAxis: {
+                name: '时间',
                 type: 'category',
                 data: hours,
             },
             yAxis: {
+                name: '湿度 / %',
                 type: 'value',
             },
             series: [

@@ -39,15 +39,9 @@ h6 {
 .charts {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .temperature-chart {
-    margin: 0 auto;
     margin-right: 40px;
 }
-
-.humidity-chart {
-    margin: 0 auto;
-}
-
