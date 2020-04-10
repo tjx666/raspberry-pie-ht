@@ -56,8 +56,8 @@ def real_time_upload():
         data = {
             'humidity': humidity, 'temperature': cTemperature, 'timestamp': time()}
         io.emit('real_time_upload', data)
-        # print('upload data, humidity： %s%, temperature: %s℃' %
-        #       (humidity, cTemperature))
+        print('upload data, humidity： %s%, temperature: %s℃' %
+              (humidity, cTemperature))
 
 
 def main():

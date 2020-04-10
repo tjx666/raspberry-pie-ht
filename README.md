@@ -10,10 +10,10 @@ pip install "python-socketio[client]"
 ### 配置上传地址
 
 ```python
-# 如果服务器部署到了云主机，将 raspberry-pie-ht/pi-client/main.py 中下面代码片段中的 HOST 改成云主机的公网 ip
+# 将 HOST 改成部署 node 服务器的机器的 ip
 
 # 服务器配置
-HOST = '127.0.0.1'
+HOST = '服务器 ip'
 PORT = 3000
 ADDRESS = 'http://%s:%s?identity=pi' % (HOST, PORT)
 io = socketio.Client()
@@ -35,10 +35,10 @@ python ./pi-client/main.py
 ```bash
 # 安装 nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-# 下载 node v12.16.0
-nvm install 12.16.1
-# 使用 node v12.16.0
-nvm use 12.16.1
+# 下载 node 12.16.2
+nvm install 12.16.2
+# 使用 node 12.16.2
+nvm use 12.16.2
 ```
 
 ### 安装 mongodb
@@ -73,16 +73,19 @@ mongo
 ### 安装依赖
 
 ```bash
-// 确保当前的工作路径是项目根目录
-// 全局安装 yarn
-npm install yarn -g
+// 安装 yarn
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install yarn
+
+// 将工作路径切换到项目根目录
+// 安装 node server 依赖
 yarn
 ```
 
 ### 启动服务器
 
 ```bash
-// 确保当前的工作路径是项目根目录
-yarn start
+// 将工作路径切换到项目根目录
+node ./server/index.js
 ```
-

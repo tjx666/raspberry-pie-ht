@@ -1,0 +1,10 @@
+{
+    "rangeData": {
+        "maxHumidityToday": 100,
+        "minHumidityToday": 21,
+        "maxTemperatureToday": 38,
+        "minTemperatureToday": -19
+    },
+    "hoursData": [],
+    "timestamp": 1586516360710
+}

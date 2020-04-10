@@ -10,25 +10,29 @@ window.addEventListener('load', () => {
     const temperatureRangeSpan = document.querySelector('.temperature-range');
     const humidityRangeSpan = document.querySelector('.humidity-range');
 
+    // 当监听到服务器触发的上传实时数据事件时
     socket.on('real_time_upload', (data) => {
-        temperatureSpan.textContent(`${data.temperature}℃`);
-        humiditySpan.textContent(`${data.humidity}%`);
-        temperatureRangeSpan.textContent(
-            `${data.minTemperatureToday} ~ ${data.maxTemperatureToday} ℃`,
-        );
-        humidityRangeSpan.textContent(`${data.minHumidityToday} ~ ${data.maxHumidityToday} %`);
+        temperatureSpan.textContent = `${data.temperature}℃`;
+        // 超过 37 ℃ 标红
+        if (data.temperature > 37) {
+            temperatureSpan.style.color = 'red';
+        }
+        humiditySpan.textContent = `${data.humidity}%`;
+        temperatureRangeSpan.textContent = `${data.minTemperatureToday} ~ ${data.maxTemperatureToday} ℃`;
+        humidityRangeSpan.textContent = `${data.minHumidityToday} ~ ${data.maxHumidityToday} %`;
     });
 
     // 基于准备好的dom，初始化echarts实例
     const temperatureChart = echarts.init(document.querySelector('.temperature-chart'));
     const humidityChart = echarts.init(document.querySelector('.humidity-chart'));
 
-    socket.on('update_data_of_hours', (dataArray) => {
+    // 当监听到服务器触发的更新小时数据事件时
+    socket.on('update_hours_data', (dataArray) => {
         const hours = dataArray.map((item) => item.hour);
         temperatureChart.setOption({
             title: {
                 text: '当天各个小时的温度',
-                left: 'center'
+                left: 'center',
             },
             xAxis: {
                 name: '时间',
@@ -41,8 +45,19 @@ window.addEventListener('load', () => {
             },
             series: [
                 {
-                    data: dataArray.map((item) => item.temperature),
                     type: 'line',
+                    data: dataArray.map((item) => item.temperature),
+                    label: {
+                        show: true,
+                    },
+                    markLine: {
+                        data: [
+                            {
+                                name: '高温报警线',
+                                yAxis: 37,
+                            },
+                        ],
+                    },
                 },
             ],
         });
@@ -50,7 +65,7 @@ window.addEventListener('load', () => {
         humidityChart.setOption({
             title: {
                 text: '当天各个小时的湿度',
-                left: 'center'
+                left: 'center',
             },
             xAxis: {
                 name: '时间',
@@ -63,8 +78,11 @@ window.addEventListener('load', () => {
             },
             series: [
                 {
-                    data: dataArray.map((item) => item.humidity),
                     type: 'line',
+                    data: dataArray.map((item) => item.humidity),
+                    label: {
+                        show: true,
+                    },
                 },
             ],
         });
