@@ -15,6 +15,6 @@ requests==2.23.0
 rope==0.16.0
 six==1.14.0
 smbus2==0.3.0
-urllib3==1.25.8
+urllib3==1.26.5
 websocket-client==0.57.0
 wrapt==1.11.2
